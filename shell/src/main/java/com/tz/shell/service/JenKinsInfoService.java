@@ -24,6 +24,8 @@ public class JenKinsInfoService {
         return null != jenkinsInfoDao.save(jenkinsInfo).getId();
     }
 
-
+    public JenkinsInfo findByNameAndType(String projectName, String type){
+        return jenkinsInfoDao.findByProjectNameAndEnvironmentType(projectName, type);
+    }
 
 }

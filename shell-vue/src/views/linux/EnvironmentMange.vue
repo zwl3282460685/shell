@@ -9,6 +9,9 @@
                     @clear="initSearchData">
                 </el-input>
                 <el-button type="primary" @click="" icon="el-icon-search" size="small" @click="initSearchData" >搜索</el-button>
+                <el-button style="margin-left: 20px" type="primary" icon="el-icon-plus" size="small" @click="showAddView">
+                    添加信息
+                </el-button>
             </div>
         </div>
         <div>
@@ -21,35 +24,84 @@
                 <el-table-column
                         prop="id"
                         label="id"
-                        width="180">
+                        width="50">
                 </el-table-column>
                 <el-table-column
                         prop="projectName"
                         label="项目名称"
-                        width="180">
+                        width="100">
                 </el-table-column>
                 <el-table-column
                         prop="environmentType"
                         label="环境类型"
-                        width="180">
+                        width="100">
                 </el-table-column>
                 <el-table-column
+                        width="350"
                         prop="classesPath"
                         label="classes路径">
                 </el-table-column>
                 <el-table-column
+                        width="350"
                         prop="jsPath"
                         label="statics路径">
                 </el-table-column>
                 <el-table-column
+                        width="110"
                         prop="createTime"
                         label="创建时间">
                 </el-table-column>
                 <el-table-column
+                        width="110"
                         prop="updateTime"
                         label="更新时间">
                 </el-table-column>
+                <el-table-column
+                        label="操作">
+                    <template slot-scope="scope">
+                        <el-button @click="showEditView(scope.$index, scope.row)" style="padding: 3px" size="big">编辑</el-button>
+                        <el-button @click="deleteInfo(scope.row)" style="padding: 3px" size="big" type="danger">删除
+                        </el-button>
+                    </template>
+                </el-table-column>
             </el-table>
+            <el-dialog
+                    :title="title"
+                    :visible.sync="dialogVisible"
+                    width="30%">
+                <div>
+                    <el-form :model="environmentInfo" :rules="rules" ref="dataFrom">
+                        <el-row>
+                            <el-form-item label="项目名称:" prop="projectName">
+                                <el-input size="small" style="width: 250px" v-model="environmentInfo.projectName"
+                                          placeholder="请输入项目名称"></el-input>
+                            </el-form-item>
+                        </el-row>
+                        <el-row>
+                            <el-form-item label="环境类型:" prop="projectName">
+                                <el-input size="small" style="width: 250px" v-model="environmentInfo.environmentType"
+                                          placeholder="请输入环境类型"></el-input>
+                            </el-form-item>
+                        </el-row>
+                        <el-row>
+                            <el-form-item label="classes路径:" prop="projectName">
+                                <el-input size="small" style="width: 250px" v-model="environmentInfo.classesPath"
+                                          placeholder="请输入classes文件夹路径"></el-input>
+                            </el-form-item>
+                        </el-row>
+                        <el-row>
+                            <el-form-item label="statics路径:" prop="projectName">
+                                <el-input size="small" style="width: 250px" v-model="environmentInfo.jsPath"
+                                          placeholder="请输入statics文件夹路径"></el-input>
+                            </el-form-item>
+                        </el-row>
+                    </el-form>
+                </div>
+                <span slot="footer" class="dialog-footer">
+                    <el-button size="medium" @click="dialogVisible = false">取 消</el-button>
+                    <el-button size="medium" type="primary" @click="doUpdate">确 定</el-button>
+                </span>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -61,8 +113,21 @@
             return{
                 keyword: '',
                 environmentData: [],
-                loading: false
-
+                loading: false,
+                dialogVisible: false,
+                title: "",
+                environmentInfo: {
+                    projectName: '',
+                    environmentType: '',
+                    classesPath: '',
+                    jsPath: ''
+                },
+                rules: {
+                    projectName: [{required: true, message: '请输入项目名称', trigger: 'blur'}],
+                    environmentType: [{required: true, message: '请输入环境类型', trigger: 'blur'}],
+                    classesPath: [{required: true, message: '请classes文件夹路径', trigger: 'blur'}],
+                    jsPath: [{required: true, message: '请static文件夹路径', trigger: 'blur'}]
+                }
             }
         },
         mounted() {
@@ -82,6 +147,45 @@
                         this.environmentData = resp;
                     }
                 })
+            },
+            deleteInfo(data){
+                this.$confirm('是否删除【' + data.projectName + '】?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.deleteRequest("/info/" + data.id).then(resp => {
+                        if (resp) {
+                            this.initData();
+                        }
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            showEditView(index, data){
+                this.title = '修改环境信息';
+                Object.assign(this.environmentInfo, data);
+                this.dialogVisible = true;
+            },
+            doUpdate(){
+                this.$refs['']
+                this.putRequest("/info/", this.environmentInfo).then(resp=>{
+                    if(resp){
+                        this.initData();
+                        this.environmentInfo.projectName="";
+                        this.environmentInfo.environmentType = "";
+                        this.environmentInfo.classesPath = "";
+                        this.environmentInfo.jsPath = "";
+                    }
+                    this.dialogVisible = false;
+                })
+            },
+            showAddView(){
+
             }
         }
     }

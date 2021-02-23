@@ -1,7 +1,9 @@
 package com.tz.shell.controller;
 
 import com.tz.shell.entity.EnvironmentInfo;
+import com.tz.shell.entity.JenkinsInfo;
 import com.tz.shell.service.EnvironmentInfoService;
+import com.tz.shell.service.JenKinsInfoService;
 import com.tz.shell.util.CreateShellUtil;
 import com.tz.shell.util.TextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class ShellController {
     @Autowired
     EnvironmentInfoService environmentInfoService;
 
+    @Autowired
+    JenKinsInfoService jenKinsInfoService;
+
     @PostMapping("/createDB")
     public ResponseEntity<byte[]> createDB(@RequestParam(value = "file") MultipartFile file,
                                              @RequestParam(value = "projectName") String projectName,
@@ -43,7 +48,6 @@ public class ShellController {
                                                       @RequestParam(value = "type") String type,
                                                       @RequestParam(value = "transferPath") String transferPath){
         List<String> list = TextUtil.readText2(file);
-
         EnvironmentInfo environmentInfo = environmentInfoService.findByNameAndType(projectName, type);
         String targetClassPath = environmentInfo.getClassesPath();
         String targetJSPath = environmentInfo.getJsPath();
@@ -53,9 +57,12 @@ public class ShellController {
 
     @PostMapping("/getFileShell")
     public ResponseEntity<byte[]> getFileShell(@RequestParam(value = "file") MultipartFile file,
-                                                      @RequestParam(value = "sourceClassPath") String sourceClassPath,
-                                                      @RequestParam(value = "sourceJsPath") String sourceJsPath){
+                                                      @RequestParam(value = "projectName") String projectName,
+                                                      @RequestParam(value = "type") String type){
         List<String> list = TextUtil.readText2(file);
+        JenkinsInfo jenkinsInfo = jenKinsInfoService.findByNameAndType(projectName, type);
+        String sourceClassPath = jenkinsInfo.getClassesPath();
+        String sourceJsPath = jenkinsInfo.getStaticsPath();
         String data = CreateShellUtil.getFileShell(list, sourceClassPath, sourceJsPath);
         return TextUtil.writeText2(data);
     }
