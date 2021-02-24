@@ -78,19 +78,23 @@
                             </el-form-item>
                         </el-row>
                         <el-row>
-                            <el-form-item label="环境类型:" prop="projectName">
-                                <el-input size="small" style="width: 250px" v-model="environmentInfo.environmentType"
-                                          placeholder="请输入环境类型"></el-input>
+                            <el-form-item label="环境类型:" prop="environmentType">
+                                <!--<el-input size="small" style="width: 250px" v-model="environmentInfo.environmentType"
+                                          placeholder="请输入环境类型"></el-input>-->
+                                <el-select v-model="environmentInfo.environmentType" placeholder="请选择环境类型" size="medium" style="width: 130px;">
+                                    <el-option v-for="item in types" :value="item.value">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                         </el-row>
                         <el-row>
-                            <el-form-item label="classes路径:" prop="projectName">
+                            <el-form-item label="classes路径:" prop="classesPath">
                                 <el-input size="small" style="width: 250px" v-model="environmentInfo.classesPath"
                                           placeholder="请输入classes文件夹路径"></el-input>
                             </el-form-item>
                         </el-row>
                         <el-row>
-                            <el-form-item label="statics路径:" prop="projectName">
+                            <el-form-item label="statics路径:" prop="jsPath">
                                 <el-input size="small" style="width: 250px" v-model="environmentInfo.jsPath"
                                           placeholder="请输入statics文件夹路径"></el-input>
                             </el-form-item>
@@ -99,7 +103,7 @@
                 </div>
                 <span slot="footer" class="dialog-footer">
                     <el-button size="medium" @click="dialogVisible = false">取 消</el-button>
-                    <el-button size="medium" type="primary" @click="doUpdate">确 定</el-button>
+                    <el-button size="medium" type="primary" @click="doUpdateOrAdd">确 定</el-button>
                 </span>
             </el-dialog>
         </div>
@@ -127,7 +131,20 @@
                     environmentType: [{required: true, message: '请输入环境类型', trigger: 'blur'}],
                     classesPath: [{required: true, message: '请classes文件夹路径', trigger: 'blur'}],
                     jsPath: [{required: true, message: '请static文件夹路径', trigger: 'blur'}]
-                }
+                },
+                types: [{
+                    value: 'dev',
+                    label: '开发环境'
+                },{
+                    value: 'tst',
+                    label: '测试环境'
+                },{
+                    value: 'uat',
+                    label: 'uat环境'
+                },{
+                    value: 'prd',
+                    label: '生产环境'
+                }]
             }
         },
         mounted() {
@@ -171,21 +188,40 @@
                 Object.assign(this.environmentInfo, data);
                 this.dialogVisible = true;
             },
-            doUpdate(){
-                this.$refs['']
-                this.putRequest("/info/", this.environmentInfo).then(resp=>{
-                    if(resp){
-                        this.initData();
-                        this.environmentInfo.projectName="";
-                        this.environmentInfo.environmentType = "";
-                        this.environmentInfo.classesPath = "";
-                        this.environmentInfo.jsPath = "";
-                    }
-                    this.dialogVisible = false;
-                })
+            doUpdateOrAdd(){
+                if(this.environmentInfo.id){
+                    this.$refs['dataFrom'].validate(valid => {
+                        if(valid){
+                            this.putRequest("/info/", this.environmentInfo).then(resp=>{
+                                if(resp){
+                                    this.dialogVisible = false;
+                                    this.initData();
+                                }
+                            })
+                        }
+                    })
+                }else {
+                    this.$refs['dataFrom'].validate(valid=>{
+                        if(valid){
+                            this.postRequest("/info/", this.environmentInfo).then(resp=>{
+                                if(resp){
+                                    this.dialogVisible = false;
+                                    this.initData();
+                                }
+                            })
+                        }
+                    })
+                }
             },
             showAddView(){
-
+                this.environmentInfo = {
+                    projectName: '',
+                    environmentType: '',
+                    classesPath: '',
+                    jsPath: ''
+                }
+                this.title = '添加环境信息';
+                this.dialogVisible = true;
             }
         }
     }
