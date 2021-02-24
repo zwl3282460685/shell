@@ -65,6 +65,15 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <div style="display: flex;justify-content: flex-end; margin-top: 5px">
+                <el-pagination
+                        background
+                        @size-change="sizeChange"
+                        @current-change="currentChange"
+                        layout="sizes, prev, pager, next, jumper, ->, total, slot"
+                        :total="total">
+                </el-pagination>
+            </div>
             <el-dialog
                     :title="title"
                     :visible.sync="dialogVisible"
@@ -79,9 +88,7 @@
                         </el-row>
                         <el-row>
                             <el-form-item label="环境类型:" prop="environmentType">
-                                <!--<el-input size="small" style="width: 250px" v-model="environmentInfo.environmentType"
-                                          placeholder="请输入环境类型"></el-input>-->
-                                <el-select v-model="environmentInfo.environmentType" placeholder="请选择环境类型" size="medium" style="width: 130px;">
+                                <el-select v-model="environmentInfo.environmentType" placeholder="请选择环境类型" size="medium" style="width: 250px;">
                                     <el-option v-for="item in types" :value="item.value">
                                     </el-option>
                                 </el-select>
@@ -89,13 +96,13 @@
                         </el-row>
                         <el-row>
                             <el-form-item label="classes路径:" prop="classesPath">
-                                <el-input size="small" style="width: 250px" v-model="environmentInfo.classesPath"
+                                <el-input size="small" style="width: 240px" v-model="environmentInfo.classesPath"
                                           placeholder="请输入classes文件夹路径"></el-input>
                             </el-form-item>
                         </el-row>
                         <el-row>
                             <el-form-item label="statics路径:" prop="jsPath">
-                                <el-input size="small" style="width: 250px" v-model="environmentInfo.jsPath"
+                                <el-input size="small" style="width: 240px" v-model="environmentInfo.jsPath"
                                           placeholder="请输入statics文件夹路径"></el-input>
                             </el-form-item>
                         </el-row>
@@ -121,6 +128,7 @@
                 dialogVisible: false,
                 title: "",
                 environmentInfo: {
+                    id: '',
                     projectName: '',
                     environmentType: '',
                     classesPath: '',
@@ -132,6 +140,9 @@
                     classesPath: [{required: true, message: '请classes文件夹路径', trigger: 'blur'}],
                     jsPath: [{required: true, message: '请static文件夹路径', trigger: 'blur'}]
                 },
+                total: 0,
+                currentSize: 10,
+                currentPage: 1,
                 types: [{
                     value: 'dev',
                     label: '开发环境'
@@ -149,8 +160,25 @@
         },
         mounted() {
             this.initData();
+            this.initPageDate();
         },
         methods: {
+            sizeChange(size){
+                this.currentSize = size;
+                this.initPageDate();
+            },
+            currentChange(page){
+              this.currentPage = page;
+              this.initPageDate();
+            },
+            initPageDate(){
+                this.getRequest("/info/?page=" + this.currentPage + '&size=' + this.currentSize).then(resp=>{
+                    if(resp){
+                        this.environmentData = resp.data.content;
+                        this.total = resp.total;
+                    }
+                })
+            },
             initData(){
                 this.getRequest("/info/findAll").then(resp=>{
                     if(resp){
@@ -189,6 +217,7 @@
                 this.dialogVisible = true;
             },
             doUpdateOrAdd(){
+                alert(this.environmentInfo.id)
                 if(this.environmentInfo.id){
                     this.$refs['dataFrom'].validate(valid => {
                         if(valid){

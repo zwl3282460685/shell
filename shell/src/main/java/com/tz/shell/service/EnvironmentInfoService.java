@@ -46,7 +46,8 @@ public class EnvironmentInfoService {
      * @return
      */
     public List<EnvironmentInfo> findAllByOrderByProjectName() {
-        return environmentInfoDao.findAllByOrderByProjectName();
+        return environmentInfoDao.findAllOrderByProjectName();
+        //return null;
     }
 
     /**
@@ -81,7 +82,7 @@ public class EnvironmentInfoService {
         if(page != null && size != null){
             page = (page -1) * size;
         }
-        Page<EnvironmentInfo> data = environmentInfoDao.findAll(PageRequest.of(page, size));
+        Page<EnvironmentInfo> data = environmentInfoDao.findAllByOrderByProjectName(PageRequest.of(page, size));
         Long total = environmentInfoDao.count();
         RespPageBean bean = new RespPageBean();
         bean.setTotal(total);
@@ -99,6 +100,6 @@ public class EnvironmentInfoService {
         if(keywords != null){
             return environmentInfoDao.findByProjectNameLike("%" + keywords + "%");
         }
-        return environmentInfoDao.findAllByOrderByProjectName();
+        return environmentInfoDao.findAllOrderByProjectName();
     }
 }
