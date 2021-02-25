@@ -17,8 +17,6 @@ import java.util.Optional;
  * @date : 2021/2/19 14:51
  */
 public interface EnvironmentInfoDao extends JpaRepository<EnvironmentInfo, Long>{
-    //List<EnvironmentInfo> findAllByOrderByProjectName();
-
     Page<EnvironmentInfo> findAllByOrderByProjectName(Pageable page);
 
     @Query(value="select * from environment_info order by project_name", nativeQuery = true)

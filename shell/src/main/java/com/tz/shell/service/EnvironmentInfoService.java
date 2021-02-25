@@ -38,6 +38,7 @@ public class EnvironmentInfoService {
      */
     public boolean addEnvironmentInfo(EnvironmentInfo environmentInfo) {
         environmentInfo.setCreateTime(new Date());
+        environmentInfo.setUpdateTime(new Date());
         return null != environmentInfoDao.save(environmentInfo).getId();
     }
 
@@ -47,7 +48,6 @@ public class EnvironmentInfoService {
      */
     public List<EnvironmentInfo> findAllByOrderByProjectName() {
         return environmentInfoDao.findAllOrderByProjectName();
-        //return null;
     }
 
     /**
@@ -79,10 +79,7 @@ public class EnvironmentInfoService {
      * @return
      */
     public RespPageBean getInfoByPage(Integer page, Integer size){
-        if(page != null && size != null){
-            page = (page -1) * size;
-        }
-        Page<EnvironmentInfo> data = environmentInfoDao.findAllByOrderByProjectName(PageRequest.of(page, size));
+        Page<EnvironmentInfo> data = environmentInfoDao.findAllByOrderByProjectName(PageRequest.of(page -1, size));
         Long total = environmentInfoDao.count();
         RespPageBean bean = new RespPageBean();
         bean.setTotal(total);
