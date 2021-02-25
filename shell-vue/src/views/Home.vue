@@ -19,7 +19,7 @@
                     <el-menu router>
                         <el-submenu :index="index" v-for="(item,index) in this.$router.options.routes" v-if="!item.hidden" :key="index">
                             <template slot="title">
-                                <i class="el-icon-location"></i>
+                                <i :class="item.iconCls"></i>
                                 <span>{{item.name}}</span>
                             </template>
                             <el-menu-item :index="child.path" v-for="(child, indexj) in item.children">{{child.name}}</el-menu-item>

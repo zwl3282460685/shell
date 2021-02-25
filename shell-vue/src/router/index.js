@@ -25,11 +25,12 @@ const routes = [
         name: 'Linux',
         component: Home,
         hidden: false,
+        iconCls: 'el-icon-help',
         children: [
             {
                path: '/EnvironmentMange',
                name: '项目环境信息管理',
-               component: EnvironmentMange
+               component: EnvironmentMange,
             },
             {
                 path: '/JenkinsMange',
@@ -38,7 +39,7 @@ const routes = [
             },
             {
                path: '/CreateShell',
-               name: '脚本生成',
+               name: 'shell脚本生成',
                component: CreateShell
             }
         ]
@@ -47,7 +48,8 @@ const routes = [
         path: '/windows',
         name: 'Windows',
         component: Home,
-        hidden: false,
+        hidden: true,
+        iconCls: 'el-icon-s-tools',
         children: [
             {
                path: '/EnvironmentMange',
