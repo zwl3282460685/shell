@@ -50,7 +50,7 @@ class CreateShellApplicationTests {
         String targetJsPath = "/export/tomcat/statics";
         String transferPath = "/root/transfer";
         List<String> list = TextUtil.readText("C:\\Users\\tranzvision\\Desktop", "1.txt");
-        String transferString = createShellService.createTransFerShell(list, targetClassPath, targetJsPath, transferPath);
+        String transferString = createShellService.createTransFerShell(list, targetClassPath, targetJsPath);
         TextUtil.writeText("C:\\Users\\tranzvision\\Desktop", "transfer.sh", transferString);
     }
 
