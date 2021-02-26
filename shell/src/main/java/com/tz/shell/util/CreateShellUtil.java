@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Component
 public class CreateShellUtil {
-    private static String backPath = "/root/ddd/";
+    private static String backPath = "/home/backup/";
     private static String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
 
 
@@ -54,10 +54,10 @@ public class CreateShellUtil {
      * @param targetJsPath 目标环境statics 文件夹所在的路径
      * @param transferPath 迁移文件所在的位置
      */
-    public static String createTransFerShell(List<String> paths, String targetClassPath, String targetJsPath, String transferPath) {
+    public static String createTransFerShell(List<String> paths, String targetClassPath, String targetJsPath) {
         StringBuffer transferSb = new StringBuffer();
         transferSb.append("#!/bin/bash").append("\n");
-        transferSb.append("transferPath=").append(transferPath).append("\n");
+        transferSb.append("transferPath=/home/transfer").append("\n");
         transferSb.append("targetClassPath=").append(targetClassPath).append("\n");
         transferSb.append("targetJsPath=").append(targetJsPath).append("\n");
         transferSb.append("cd $transferPath/").append(time).append("\n");

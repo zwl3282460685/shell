@@ -8,12 +8,10 @@ import com.tz.shell.util.CreateShellUtil;
 import com.tz.shell.util.TextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -30,10 +28,17 @@ public class ShellController {
     @Autowired
     JenKinsInfoService jenKinsInfoService;
 
+    /**
+     * 创建备份脚本
+     * @param file
+     * @param projectName
+     * @param type
+     * @return
+     */
     @PostMapping("/createDB")
-    public ResponseEntity<byte[]> createDB(@RequestParam(value = "file") MultipartFile file,
-                                             @RequestParam(value = "projectName") String projectName,
-                                             @RequestParam(value = "type") String type){
+    public ResponseEntity<byte[]> createDB( MultipartFile file,
+                                            @RequestParam(value = "projectName") String projectName,
+                                            @RequestParam(value = "type") String type) {
         List<String> list = TextUtil.readText2(file);
         EnvironmentInfo environmentInfo = environmentInfoService.findByNameAndType(projectName, type);
         String targetClassPath = environmentInfo.getClassesPath();
@@ -42,28 +47,62 @@ public class ShellController {
         return TextUtil.writeText2(data);
     }
 
+    /**
+     * 创建迁移脚本
+     * @param file
+     * @param projectName
+     * @param type
+     * @param transferPath
+     * @return
+     */
     @PostMapping("/createTransFerShell")
-    public ResponseEntity<byte[]> createTransferShell(@RequestParam(value = "file") MultipartFile file,
+    public ResponseEntity<byte[]> createTransferShell(MultipartFile file,
                                                       @RequestParam(value = "projectName") String projectName,
-                                                      @RequestParam(value = "type") String type,
-                                                      @RequestParam(value = "transferPath") String transferPath){
+                                                      @RequestParam(value = "type") String type) {
         List<String> list = TextUtil.readText2(file);
         EnvironmentInfo environmentInfo = environmentInfoService.findByNameAndType(projectName, type);
         String targetClassPath = environmentInfo.getClassesPath();
         String targetJSPath = environmentInfo.getJsPath();
-        String data = CreateShellUtil.createTransFerShell(list, targetClassPath, targetJSPath, transferPath);
+        String data = CreateShellUtil.createTransFerShell(list, targetClassPath, targetJSPath);
         return TextUtil.writeText2(data);
     }
 
-    @PostMapping("/getFileShell")
-    public ResponseEntity<byte[]> getFileShell(@RequestParam(value = "file") MultipartFile file,
+    /**
+     * 创建从jenkins获取迁移文件的脚本
+     * @param file
+     * @param projectName
+     * @param type
+     * @return
+     */
+    @PostMapping("/getFilesFromJenkins")
+    public ResponseEntity<byte[]> getFileShellFromJenkins(MultipartFile file,
                                                       @RequestParam(value = "projectName") String projectName,
-                                                      @RequestParam(value = "type") String type){
+                                                      @RequestParam(value = "type") String type) throws IOException {
         List<String> list = TextUtil.readText2(file);
         JenkinsInfo jenkinsInfo = jenKinsInfoService.findByNameAndType(projectName, type);
         String sourceClassPath = jenkinsInfo.getClassesPath();
         String sourceJsPath = jenkinsInfo.getStaticsPath();
         String data = CreateShellUtil.getFileShell(list, sourceClassPath, sourceJsPath);
         return TextUtil.writeText2(data);
+    }
+
+    /**
+     * 创建从项目中获取迁移文件的脚本
+     * @param file
+     * @param projectName
+     * @param type
+     * @return
+     */
+    @PostMapping("/getFilesFromProject")
+    public ResponseEntity<byte[]> getFileShellFromProject(MultipartFile file,
+                                                          @RequestParam(value = "projectName") String projectName,
+                                                          @RequestParam(value = "type") String type){
+        List<String> list = TextUtil.readText2(file);
+        EnvironmentInfo environmentInfo = environmentInfoService.findByNameAndType(projectName, type);
+        String sourceClassPath = environmentInfo.getClassesPath();
+        String sourceJsPath = environmentInfo.getJsPath();
+        String data = CreateShellUtil.getFileShell(list, sourceClassPath, sourceJsPath);
+        return TextUtil.writeText2(data);
+
     }
 }
