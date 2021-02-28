@@ -1,5 +1,8 @@
 package com.tz.shell;
 
+import com.tz.shell.entity.JenkinsInfo;
+import com.tz.shell.repository.EnvironmentInfoDao;
+import com.tz.shell.repository.JenkinsInfoDao;
 import com.tz.shell.util.CreateShellUtil;
 import com.tz.shell.util.TextUtil;
 import org.junit.jupiter.api.Test;
@@ -15,6 +18,11 @@ class CreateShellApplicationTests {
 
     @Autowired
     CreateShellUtil createShellService;
+    @Autowired
+    EnvironmentInfoDao environmentInfoDao;
+
+    @Autowired
+    JenkinsInfoDao jenkinsInfoDao;
 
     @Test
     void contextLoads() {
@@ -59,5 +67,13 @@ class CreateShellApplicationTests {
         String text = "1.txt";
         String[] strings = text.split("\\.");
         System.out.println(strings[0]);
+    }
+
+    @Test
+    void test6(){
+        //System.out.println(environmentInfoDao.getAllProjectNameDistinct());
+        //System.out.println(jenkinsInfoDao.getAllProjectNameDistinct());
+        //System.out.println(environmentInfoDao.getAllTypeByProjectName("厦大"));
+        System.out.println(jenkinsInfoDao.getAllTypeByProjectName("哈工大"));
     }
 }

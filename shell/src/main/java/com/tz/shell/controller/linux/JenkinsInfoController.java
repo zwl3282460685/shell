@@ -1,6 +1,5 @@
-package com.tz.shell.controller;
+package com.tz.shell.controller.linux;
 
-import com.tz.shell.entity.EnvironmentInfo;
 import com.tz.shell.entity.JenkinsInfo;
 import com.tz.shell.model.RespBean;
 import com.tz.shell.model.RespPageBean;
