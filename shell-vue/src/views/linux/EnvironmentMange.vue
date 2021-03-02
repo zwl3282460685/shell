@@ -21,11 +21,11 @@
                     stripe
                     border
                     style="width: 100%; margin-top: 10px">
-                <el-table-column
+                <!--<el-table-column
                         prop="id"
                         label="id"
                         width="50">
-                </el-table-column>
+                </el-table-column>-->
                 <el-table-column
                         prop="projectName"
                         label="项目名称"

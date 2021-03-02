@@ -19,7 +19,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="环境类型:" prop="type">
-                                <el-select v-model="jenkinsInfo.type" placeholder="请选择环境类型" size="medium" style="width: 200px;">
+                                <el-select v-model="jenkinsInfo.type" placeholder="请选择git分支" size="medium" style="width: 200px;">
                                     <el-option
                                             v-for="item in jenkinsTypes"
                                             :label="item"
