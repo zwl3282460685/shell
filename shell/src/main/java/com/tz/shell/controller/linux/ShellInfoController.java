@@ -1,8 +1,5 @@
 package com.tz.shell.controller.linux;
 
-import com.tz.shell.entity.EnvironmentInfo;
-import com.tz.shell.entity.JenkinsInfo;
-import com.tz.shell.model.RespBean;
 import com.tz.shell.service.ShellInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

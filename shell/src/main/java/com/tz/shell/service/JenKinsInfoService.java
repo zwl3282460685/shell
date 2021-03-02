@@ -1,6 +1,5 @@
 package com.tz.shell.service;
 
-import com.tz.shell.entity.EnvironmentInfo;
 import com.tz.shell.entity.JenkinsInfo;
 import com.tz.shell.model.RespPageBean;
 import com.tz.shell.repository.JenkinsInfoDao;

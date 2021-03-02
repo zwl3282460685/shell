@@ -1,7 +1,5 @@
 package com.tz.shell.util;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +23,6 @@ public class CreateShellUtil {
      */
     public static String getFileShell(List<String> paths, String sourceClassPath, String sourceJsPath){
         StringBuffer getSb = new StringBuffer();
-        //String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
         String filePath = "/root/transfer/" + time;
         getSb.append("#!/bin/bash").append("\n");
         getSb.append("filePath=").append(filePath).append("\n");
@@ -52,7 +49,6 @@ public class CreateShellUtil {
      * @param paths 迁移内容
      * @param targetClassPath 目标环境classes文件夹所在的路径
      * @param targetJsPath 目标环境statics 文件夹所在的路径
-     * @param transferPath 迁移文件所在的位置
      */
     public static String createTransFerShell(List<String> paths, String targetClassPath, String targetJsPath) {
         StringBuffer transferSb = new StringBuffer();
@@ -64,19 +60,19 @@ public class CreateShellUtil {
         for(String path : paths){
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("/"));
-                transferSb.append("if [ -d $targetClassPath").append(classFolderPath).append("]; then").append("\n");
-                transferSb.append("   cp -r $transferPath").append(path).append(" $targetClassPath").append(classFolderPath).append("\n");
+                transferSb.append("if [ -d $targetClassPath").append(classFolderPath).append(" ]; then").append("\n");
+                transferSb.append("   cp -r $transferPath/").append(time).append(path).append(" $targetClassPath").append(classFolderPath).append("\n");
                 transferSb.append("else").append("\n");
                 transferSb.append("   mkdir -p $targetClassPath").append(classFolderPath).append("\n");
                 transferSb.append("   cp -r $transferPath").append(path).append(" $targetClassPath").append(classFolderPath).append("\n");
                 transferSb.append("fi").append("\n\n");
             }else{
                 String jsFolderPath = path.substring(0, path.lastIndexOf("/"));
-                transferSb.append("if [ -d $targetJsPath").append(jsFolderPath).append("]; then").append("\n");
+                transferSb.append("if [ -d $targetJsPath").append(jsFolderPath).append(" ]; then").append("\n");
                 transferSb.append("   cp -r $transferPath").append(path).append(" $targetJsPath").append(jsFolderPath).append("\n");
                 transferSb.append("else").append("\n");
                 transferSb.append("   mkdir -p $targetClassPath").append(jsFolderPath).append("\n");
-                transferSb.append("   cp -r $transferPath").append(path).append(" $targetJsPath").append(jsFolderPath).append("\n");
+                transferSb.append("   cp -r $transferPath").append(time).append(path).append(" $targetJsPath").append(jsFolderPath).append("\n");
                 transferSb.append("fi").append("\n\n");
             }
         }
@@ -91,20 +87,15 @@ public class CreateShellUtil {
      */
     public static String createDBShell(List<String> paths, String targetClassPath, String targetJSPath){
         StringBuffer DBsb = new StringBuffer();
-        //String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
         DBsb.append("#!/bin/bash").append("\n");
         DBsb.append("backPath=").append(backPath).append(time);
         DBsb.append("\n");
         DBsb.append("mkdir -p $backPath");
         DBsb.append("\n");
-        //DBsb.append("cd $backPath");
-        //DBsb.append("\n");
-        //DBsb.append("rm -rf *.*"); //删除上一次的备份文件
         DBsb.append("classPath=").append(targetClassPath).append("\n");
         DBsb.append("jsPath=").append(targetJSPath);
         DBsb.append("\n");
 
-        //DBsb.append("cd $backPath").append("\n");
         for(String path : paths){
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("/"));

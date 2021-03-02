@@ -1,7 +1,5 @@
 package com.tz.shell.service;
 
-import com.tz.shell.entity.EnvironmentInfo;
-import com.tz.shell.entity.JenkinsInfo;
 import com.tz.shell.repository.EnvironmentInfoDao;
 import com.tz.shell.repository.JenkinsInfoDao;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -21,21 +21,21 @@
                     stripe
                     border
                     style="width: 100%; margin-top: 10px">
-                <el-table-column
+                <!--<el-table-column
                         prop="id"
                         label="id"
                         width="50">
-                </el-table-column>
+                </el-table-column>-->
                 <el-table-column
                         fixed
                         align="left"
                         prop="projectName"
                         label="项目名称"
-                        width="100">
+                        width="170">
                 </el-table-column>
                 <el-table-column
                         prop="environmentType"
-                        label="环境类型"
+                        label="git分支"
                         width="100">
                 </el-table-column>
                 <el-table-column
@@ -90,8 +90,8 @@
                             </el-form-item>
                         </el-row>
                         <el-row>
-                            <el-form-item label="环境类型:" prop="environmentType">
-                                <el-select v-model="jenkinsInfo.environmentType" placeholder="请选择环境类型" size="medium" style="width: 250px;">
+                            <el-form-item label="git分支:" prop="environmentType">
+                                <el-select v-model="jenkinsInfo.environmentType" placeholder="请选择git分支" size="medium" style="width: 250px;">
                                     <el-option v-for="item in types" :value="item.value">
                                     </el-option>
                                 </el-select>
@@ -139,7 +139,7 @@
                 },
                 rules: {
                     projectName: [{required: true, message: '请输入项目名称', trigger: 'blur'}],
-                    environmentType: [{required: true, message: '请输入环境类型', trigger: 'blur'}],
+                    environmentType: [{required: true, message: '请输入git分支', trigger: 'blur'}],
                     classesPath: [{required: true, message: '请classes文件夹路径', trigger: 'blur'}],
                     staticsPath: [{required: true, message: '请static文件夹路径', trigger: 'blur'}]
                 },
@@ -147,14 +147,18 @@
                 currentSize: 10,
                 currentPage: 1,
                 types: [{
+                    value: 'dev',
+                    label: '开发分支'
+                },
+                   {
                     value: 'tst',
-                    label: '测试环境'
+                    label: '测试分支'
                 },{
-                    value: 'uat',
+                    value: 'release',
                     label: 'uat环境'
                 },{
-                    value: 'prd',
-                    label: '生产环境'
+                    value: 'master',
+                    label: '生产分支'
                 }]
             }
         },

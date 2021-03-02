@@ -79,6 +79,7 @@ public class ShellController {
                                                       @RequestParam(value = "projectName") String projectName,
                                                       @RequestParam(value = "type") String type) throws IOException {
         List<String> list = TextUtil.readText2(file);
+        System.out.println(list);
         JenkinsInfo jenkinsInfo = jenKinsInfoService.findByNameAndType(projectName, type);
         String sourceClassPath = jenkinsInfo.getClassesPath();
         String sourceJsPath = jenkinsInfo.getStaticsPath();
