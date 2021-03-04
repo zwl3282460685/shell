@@ -40,6 +40,16 @@ public class CreateShellUtil {
                 getSb.append("mkdir -p $filePath").append(jsFolderPath).append("\n");
                 getSb.append("cp -r ").append(sourceJsPath).append(path).append(" $filePath").append(jsFolderPath).append("\n");
             }
+            /*if(path.startsWith("/com")){
+                String classFolderPath = path.substring(0, path.lastIndexOf("/"));
+                getSb.append("mkdir -p $filePath").append(classFolderPath).append("\n");
+                getSb.append("cp -r ").append(sourceClassPath).append(path).append(" $filePath").append(classFolderPath).append("\n");
+
+            }else{
+                String jsFolderPath = path.substring(0, path.lastIndexOf("/"));
+                getSb.append("mkdir -p $filePath").append(jsFolderPath).append("\n");
+                getSb.append("cp -r ").append(sourceJsPath).append(path).append(" $filePath").append(jsFolderPath).append("\n");
+            }*/
         }
         return getSb.toString();
     }
@@ -75,6 +85,24 @@ public class CreateShellUtil {
                 transferSb.append("   cp -r $transferPath").append(time).append(path).append(" $targetJsPath").append(jsFolderPath).append("\n");
                 transferSb.append("fi").append("\n\n");
             }
+            /*if(path.startsWith("/com")){
+                String classFolderPath = path.substring(0, path.lastIndexOf("/"));
+                transferSb.append("if [ -d $targetClassPath").append(classFolderPath).append(" ]; then").append("\n");
+                transferSb.append("   cp -r $transferPath/").append(time).append(path).append(" $targetClassPath").append(classFolderPath).append("\n");
+                transferSb.append("else").append("\n");
+                transferSb.append("   mkdir -p $targetClassPath").append(classFolderPath).append("\n");
+                transferSb.append("   cp -r $transferPath/").append(time).append(path).append(" $targetClassPath").append(classFolderPath).append("\n");
+                transferSb.append("fi").append("\n\n");
+            }else{
+                String jsFolderPath = path.substring(0, path.lastIndexOf("/"));
+                transferSb.append("if [ -d $targetJsPath").append(jsFolderPath).append(" ]; then").append("\n");
+                transferSb.append("   cp -r $transferPath/").append(time).append(path).append(" $targetJsPath").append(jsFolderPath).append("\n");
+                transferSb.append("else").append("\n");
+                transferSb.append("   mkdir -p $targetJsPath").append(jsFolderPath).append("\n");
+                transferSb.append("   cp -r $transferPath/").append(time).append(path).append(" $targetJsPath").append(jsFolderPath).append("\n");
+                transferSb.append("fi").append("\n\n");
+            }*/
+
         }
         return transferSb.toString();
     }
@@ -110,6 +138,20 @@ public class CreateShellUtil {
                 DBsb.append("   cp -r ").append(targetJSPath).append(path).append(" ").append("$backPath").append(jsFolderPath).append("\n");
                 DBsb.append("fi").append("\n\n");
             }
+            /*if(path.startsWith("/com") || path.startsWith("/html")){
+                String classFolderPath = path.substring(0, path.lastIndexOf("/"));
+                DBsb.append("if [ -f $classPath").append(path).append(" ];then").append("\n");
+                DBsb.append("   mkdir -p $backPath").append(classFolderPath).append("\n"); //创建文件夹
+                DBsb.append("   cp -r ").append(targetClassPath).append(path).append(" ").append("$backPath").append(classFolderPath).append("\n");
+                DBsb.append("fi").append("\n\n");
+            }else{
+                String jsFolderPath = path.substring(0, path.lastIndexOf("/"));
+                DBsb.append("if [ -f $jsPath").append(path).append(" ];then").append("\n");
+                DBsb.append("   mkdir -p $backPath").append(jsFolderPath).append("\n"); //创建文件夹
+                DBsb.append("   cp -r ").append(targetJSPath).append(path).append(" ").append("$backPath").append(jsFolderPath).append("\n");
+                DBsb.append("fi").append("\n\n");
+            }*/
+
         }
         return DBsb.toString();
     }

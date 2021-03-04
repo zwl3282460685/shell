@@ -29,12 +29,12 @@
                 <el-table-column
                         prop="projectName"
                         label="项目名称"
-                        width="100">
+                        width="180">
                 </el-table-column>
                 <el-table-column
                         prop="environmentType"
                         label="环境类型"
-                        width="100">
+                        width="80">
                 </el-table-column>
                 <el-table-column
                         width="350"
@@ -78,7 +78,10 @@
                     :visible.sync="dialogVisible"
                     width="30%">
                 <div>
-                    <el-form :model="environmentInfo" :rules="rules" ref="dataFrom">
+                    <el-form :model="environmentInfo"
+                             :rules="rules"
+                             :label-position="left"
+                             ref="dataFrom">
                         <el-row>
                             <el-form-item label="项目名称:" prop="projectName">
                                 <el-input size="small" style="width: 250px" v-model="environmentInfo.projectName"
