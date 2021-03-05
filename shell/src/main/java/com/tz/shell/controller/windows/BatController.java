@@ -1,10 +1,7 @@
 package com.tz.shell.controller.windows;
 
-import com.tz.shell.entity.EnvironmentInfo;
 import com.tz.shell.entity.JenkinsInfo;
 import com.tz.shell.entity.WindowsInfo;
-import com.tz.shell.service.BatInfoService;
-import com.tz.shell.service.EnvironmentInfoService;
 import com.tz.shell.service.JenKinsInfoService;
 import com.tz.shell.service.WindowsInfoService;
 import com.tz.shell.util.CreateBatlUtil;
@@ -105,10 +102,11 @@ public class BatController {
                                                           @RequestParam(value = "projectName") String projectName,
                                                           @RequestParam(value = "type") String type){
         List<String> list = TextUtil.readText2(file);
+        System.out.println(list);
         WindowsInfo windowsInfo = windowsInfoService.findByNameAndType(projectName, type);
         String sourceClassPath = windowsInfo.getClassesPath();
         String sourceJsPath = windowsInfo.getJsPath();
-        String data = CreateShellUtil.getFileShell(list, sourceClassPath, sourceJsPath);
+        String data = CreateBatlUtil.getFileBat(list, sourceClassPath, sourceJsPath);
         return TextUtil.writeText2(data);
     }
 }

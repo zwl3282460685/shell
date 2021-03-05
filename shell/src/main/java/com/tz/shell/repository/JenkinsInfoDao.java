@@ -1,9 +1,7 @@
 package com.tz.shell.repository;
 
-import com.tz.shell.entity.EnvironmentInfo;
 import com.tz.shell.entity.JenkinsInfo;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

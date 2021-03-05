@@ -52,7 +52,6 @@ public class ShellController {
      * @param file
      * @param projectName
      * @param type
-     * @param transferPath
      * @return
      */
     @PostMapping("/createTransFerShell")
@@ -77,7 +76,7 @@ public class ShellController {
     @PostMapping("/getFilesFromJenkins")
     public ResponseEntity<byte[]> getFileShellFromJenkins(MultipartFile file,
                                                       @RequestParam(value = "projectName") String projectName,
-                                                      @RequestParam(value = "type") String type) throws IOException {
+                                                      @RequestParam(value = "type") String type) {
         List<String> list = TextUtil.readText2(file);
         System.out.println(list);
         JenkinsInfo jenkinsInfo = jenKinsInfoService.findByNameAndType(projectName, type);

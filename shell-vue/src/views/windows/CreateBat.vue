@@ -267,7 +267,7 @@
                             var a = document.createElement('a')
                             document.body.appendChild(a)
                             a.href = url
-                            a.download = 'fromProject' + this.updateTime + '.sh'
+                            a.download = 'fromProject' + this.updateTime + '.bat'
                             a.click()   // 模拟点击下载
                             window.URL.revokeObjectURL(url)
                         })
@@ -299,7 +299,7 @@
                             var a = document.createElement('a')
                             document.body.appendChild(a)
                             a.href = url
-                            a.download = 'backup' + this.updateTime + '.sh'
+                            a.download = 'backup' + this.updateTime + '.bat'
                             a.click()   // 模拟点击下载
                             window.URL.revokeObjectURL(url)
                         })
@@ -331,7 +331,7 @@
                             var a = document.createElement('a')
                             document.body.appendChild(a)
                             a.href = url
-                            a.download = 'transfer' + this.updateTime + '.sh'
+                            a.download = 'transfer' + this.updateTime + '.bat'
                             a.click()   // 模拟点击下载
                             window.URL.revokeObjectURL(url)
                         })

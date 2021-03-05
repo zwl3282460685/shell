@@ -28,8 +28,8 @@ public class CreateBatlUtil {
         transferSb.append("set transferPath=C:\\TA\\").append("\r\n");
         transferSb.append("set targetClassPath=").append(targetClassPath).append("\r\n");
         transferSb.append("set targetJsPath=").append(targetJsPath).append("\r\n");
-        //transferSb.append("cd %transferPath%").append(time).append("\n");
         for(String path : paths){
+            path = path.replace("/", "\\");
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("\\"));
                 transferSb.append("if exist %targetClassPath%").append(classFolderPath).append(" (").append("\r\n");
@@ -67,8 +67,8 @@ public class CreateBatlUtil {
         DBsb.append("set jsPath=").append(targetJSPath).append("\r\n");
         DBsb.append("md %backPath%");
         DBsb.append("\r\n");
-
         for(String path : paths){
+            path = path.replace("/", "\\");
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("\\"));
                 DBsb.append("if exist %classPath%").append(path).append(" (").append("\r\n");
@@ -84,5 +84,35 @@ public class CreateBatlUtil {
             }
         }
         return DBsb.toString();
+    }
+
+    /***
+     * 创建从项目中获取迁移文件的bat脚本
+     * @param paths
+     * @param sourceClassPath
+     * @param sourceJsPath
+     * @return
+     */
+    public static String getFileBat(List<String> paths, String sourceClassPath, String sourceJsPath) {
+        StringBuffer getSb = new StringBuffer();
+        String filePath = "D:\\TA\\transfer" + time;
+        getSb.append("@echo off").append("\r\n");
+        getSb.append("set filepath=").append(filePath).append("\r\n");
+        getSb.append("set sourcePath=").append(sourceClassPath).append("\r\n");
+        getSb.append("md %filepath%").append("\r\n");
+        for(String path : paths){
+            path = path.replace("/", "\\");
+            if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml")){
+                String classFolderPath = path.substring(0, path.lastIndexOf("\\"));
+                getSb.append("md %filePath%").append(classFolderPath).append("\r\n");
+                getSb.append("copy ").append(sourceClassPath).append(path).append("% filepath%").append(classFolderPath).append("\r\n");
+
+            }else{
+                String jsFolderPath = path.substring(0, path.lastIndexOf("\\"));
+                getSb.append("md %filePath%").append(jsFolderPath).append("\r\n");
+                getSb.append("copy ").append(sourceJsPath).append(path).append(" %filePath%").append(jsFolderPath).append("\r\n");
+            }
+        }
+        return getSb.toString();
     }
 }

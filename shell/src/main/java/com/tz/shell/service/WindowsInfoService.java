@@ -1,6 +1,5 @@
 package com.tz.shell.service;
 
-import com.tz.shell.entity.EnvironmentInfo;
 import com.tz.shell.entity.WindowsInfo;
 import com.tz.shell.model.RespPageBean;
 import com.tz.shell.repository.WindowsInfoDao;
@@ -44,7 +43,7 @@ public class WindowsInfoService {
 
     /**
      * 更新信息
-     * @param environmentInfo
+     * @param windowsInfo
      * @return
      */
     public boolean updateInfo(WindowsInfo windowsInfo) {

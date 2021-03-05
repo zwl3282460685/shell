@@ -47,12 +47,12 @@
                         label="statics路径">
                 </el-table-column>
                 <el-table-column
-                        width="110"
+                        width="100"
                         prop="createTime"
                         label="创建时间">
                 </el-table-column>
                 <el-table-column
-                        width="110"
+                        width="100"
                         prop="updateTime"
                         label="更新时间">
                 </el-table-column>
