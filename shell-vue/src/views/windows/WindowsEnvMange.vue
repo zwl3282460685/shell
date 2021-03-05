@@ -16,7 +16,7 @@
         </div>
         <div>
             <el-table
-                    :data="environmentData"
+                    :data="winEnvInfoData"
                     v-loading="loading"
                     stripe
                     border
@@ -78,18 +78,18 @@
                     :visible.sync="dialogVisible"
                     width="30%">
                 <div>
-                    <el-form :model="environmentInfo"
+                    <el-form :model="winEnvInfo"
                              :rules="rules"
                              ref="dataFrom">
                         <el-row>
                             <el-form-item label="项目名称:" prop="projectName">
-                                <el-input size="small" style="width: 250px" v-model="environmentInfo.projectName"
+                                <el-input size="small" style="width: 250px" v-model="winEnvInfo.projectName"
                                           placeholder="请输入项目名称"></el-input>
                             </el-form-item>
                         </el-row>
                         <el-row>
                             <el-form-item label="环境类型:" prop="environmentType">
-                                <el-select v-model="environmentInfo.environmentType" placeholder="请选择环境类型" size="medium" style="width: 250px;">
+                                <el-select v-model="winEnvInfo.environmentType" placeholder="请选择环境类型" size="medium" style="width: 250px;">
                                     <el-option v-for="item in types" :value="item.value">
                                     </el-option>
                                 </el-select>
@@ -97,13 +97,13 @@
                         </el-row>
                         <el-row>
                             <el-form-item label="classes路径:" prop="classesPath">
-                                <el-input size="small" style="width: 240px" v-model="environmentInfo.classesPath"
+                                <el-input size="small" style="width: 240px" v-model="winEnvInfo.classesPath"
                                           placeholder="请输入classes文件夹路径"></el-input>
                             </el-form-item>
                         </el-row>
                         <el-row>
                             <el-form-item label="statics路径:" prop="jsPath">
-                                <el-input size="small" style="width: 240px" v-model="environmentInfo.jsPath"
+                                <el-input size="small" style="width: 240px" v-model="winEnvInfo.jsPath"
                                           placeholder="请输入statics文件夹路径"></el-input>
                             </el-form-item>
                         </el-row>
@@ -124,11 +124,11 @@
         data() {
             return{
                 keyword: '',
-                environmentData: [],
+                winEnvInfoData: [],
                 loading: false,
                 dialogVisible: false,
                 title: "",
-                environmentInfo: {
+                winEnvInfo: {
                     id: '',
                     projectName: '',
                     environmentType: '',
@@ -174,9 +174,9 @@
             },
             initPageDate(){
                 this.loading = true;
-                this.getRequest("/info/?page=" + this.currentPage + '&size=' + this.currentSize).then(resp=>{
+                this.getRequest("/winInfo/?page=" + this.currentPage + '&size=' + this.currentSize).then(resp=>{
                     if(resp){
-                        this.environmentData = resp.data.content;
+                        this.winEnvInfoData = resp.data.content;
                         this.total = resp.total;
                         this.loading = false;
                     }
@@ -184,18 +184,18 @@
             },
             initData(){
                 this.loading = true;
-                this.getRequest("/info/findAll").then(resp=>{
+                this.getRequest("/winInfo/findAll").then(resp=>{
                     if(resp){
-                        this.environmentData = resp;
+                        this.winEnvInfoData = resp;
                         this.loading = false;
                     }
                 })
             },
             initSearchData(){
                 this.loading = true;
-                this.getRequest("/info/findByName" + "?keywords=" + this.keyword).then(resp=>{
+                this.getRequest("/winInfo/findByName" + "?keywords=" + this.keyword).then(resp=>{
                     if(resp){
-                        this.environmentData = resp;
+                        this.winEnvInfoData = resp;
                         this.loading=false;
                     }
                 })
@@ -206,7 +206,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.deleteRequest("/info/" + data.id).then(resp => {
+                    this.deleteRequest("/winInfo/" + data.id).then(resp => {
                         if (resp) {
                             this.initData();
                         }
@@ -220,14 +220,14 @@
             },
             showEditView(index, data){
                 this.title = '修改环境信息';
-                Object.assign(this.environmentInfo, data);
+                Object.assign(this.winEnvInfo, data);
                 this.dialogVisible = true;
             },
             doUpdateOrAdd(){
-                if(this.environmentInfo.id){
+                if(this.winEnvInfo.id){
                     this.$refs['dataFrom'].validate(valid => {
                         if(valid){
-                            this.putRequest("/info/", this.environmentInfo).then(resp=>{
+                            this.putRequest("/winInfo/", this.winEnvInfo).then(resp=>{
                                 if(resp){
                                     this.dialogVisible = false;
                                     this.initData();
@@ -238,7 +238,7 @@
                 }else {
                     this.$refs['dataFrom'].validate(valid=>{
                         if(valid){
-                            this.postRequest("/info/", this.environmentInfo).then(resp=>{
+                            this.postRequest("/winInfo/", this.winEnvInfo).then(resp=>{
                                 if(resp){
                                     this.dialogVisible = false;
                                     this.initData();
@@ -249,7 +249,7 @@
                 }
             },
             showAddView(){
-                this.environmentInfo = {
+                this.winEnvInfo = {
                     projectName: '',
                     environmentType: '',
                     classesPath: '',

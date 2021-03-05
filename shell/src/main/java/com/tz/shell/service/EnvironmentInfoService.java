@@ -93,7 +93,6 @@ public class EnvironmentInfoService {
      * @return
      */
     public List<EnvironmentInfo> findByProjectName(String keywords) {
-        System.out.println(keywords);
         if(keywords != null){
             return environmentInfoDao.findByProjectNameLike("%" + keywords + "%");
         }

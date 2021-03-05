@@ -4,6 +4,8 @@ import Home from '../views/Home'
 import EnvironmentMange from '../views/linux/EnvironmentMange'
 import CreateShell from '../views/linux/CreateShell'
 import JenkinsMange from '../views/linux/JenkinsMange'
+import CreateBat from "../views/windows/CreateBat";
+import WindowsEnvMange from "../views/windows/WindowsEnvMange";
 
 Vue.use(VueRouter)
 
@@ -48,18 +50,18 @@ const routes = [
         path: '/windows',
         name: 'Windows',
         component: Home,
-        hidden: true,
+        hidden: false,
         iconCls: 'el-icon-s-tools',
         children: [
             {
-               path: '/EnvironmentMange',
-               name: '环境信息管理',
-               component: EnvironmentMange
+               path: '/WindowsEnvMange',
+               name: '项目环境信息管理',
+               component: WindowsEnvMange
             },
             {
-               path: '/CreateShell',
-               name: '脚本生成',
-               component: CreateShell
+               path: '/CreateBat',
+               name: 'bat脚本生成',
+               component: CreateBat
             }
         ]
     }

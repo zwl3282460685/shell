@@ -2,7 +2,7 @@
     <div>
         <el-container>
             <el-header class="homeHeader">
-                <div class="title">shell</div>
+                <div class="title">shell&bat</div>
                 <el-dropdown class="userInfo" @command="commandHandler">
                     <span class="el-dropdown-link">{{user}}
 <!--                        <i><img src=""></i>-->
@@ -17,12 +17,12 @@
             <el-container>
                 <el-aside width="200px">
                     <el-menu router>
-                        <el-submenu :index="index" v-for="(item,index) in this.$router.options.routes" v-if="!item.hidden" :key="index">
+                        <el-submenu :index="index+''" v-for="(item,index) in this.$router.options.routes" v-if="!item.hidden" :key="index">
                             <template slot="title">
                                 <i :class="item.iconCls"></i>
                                 <span>{{item.name}}</span>
                             </template>
-                            <el-menu-item :index="child.path" v-for="(child, indexj) in item.children">{{child.name}}</el-menu-item>
+                            <el-menu-item :index="child.path" v-for="(child, indexj) in item.children" :key="indexj">{{child.name}}</el-menu-item>
                         </el-submenu>
                     </el-menu>
                 </el-aside>

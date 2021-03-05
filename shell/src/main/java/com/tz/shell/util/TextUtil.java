@@ -52,6 +52,11 @@ public class TextUtil {
         return flag;
     }
 
+    /**
+     * 生成文件流
+     * @param data
+     * @return
+     */
     public static ResponseEntity<byte[]> writeText2(String data){
         String fileName = "db" + time + ".sh";
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

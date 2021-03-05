@@ -72,12 +72,23 @@ class CreateShellApplicationTests {
 //
     @Test
     void test6(){
-        String sourceClassPath = "/var/jenkins_home/workspace/哈工大/哈工大-教务portal-dev/target/university/WEB-INF/classes";
-        String sourceJsPath = "/var/jenkins_home/workspace/哈工大/哈工大-教务portal-dev/target/university/statics";
+        String sourceClassPath = "D:\\test2\\44" ;
+        String sourceJsPath = "D:\\test\\33";
         List<String> list = TextUtil.readText("C:\\Users\\tranzvision\\Desktop", "1.txt");
         System.out.println(list);
-        String transferString = CreateBatlUtil.createTransFerShell(list, sourceClassPath, sourceJsPath);
+        String transferString = CreateBatlUtil.createTransFerBat(list, sourceClassPath, sourceJsPath);
         System.out.println(transferString);
         TextUtil.writeText("C:\\Users\\tranzvision\\Desktop", "test.bat", transferString);
+    }
+
+    @Test
+    void test7(){
+        String targetClassPath = "D:\\test2\\44";
+        String targetJsPath = "D:\\test\\33";
+        List<String> list = TextUtil.readText("C:\\Users\\tranzvision\\Desktop", "1.txt");
+        System.out.println(list);
+        String DBString = CreateBatlUtil.createDBShell(list, targetClassPath, targetJsPath);
+        System.out.println(DBString);
+        TextUtil.writeText("C:\\Users\\tranzvision\\Desktop", "DB.bat", DBString);
     }
 }

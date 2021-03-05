@@ -7,14 +7,14 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Linux环境信息
+ * window环境信息
  * @author zwl
- * @date : 2021/2/19 14:25
+ * @date : 2021/3/4 17:49
  */
-@Data
 @Entity
-@Table(name="environment_info")
-public class EnvironmentInfo {
+@Data
+@Table(name="windows_info")
+public class WindowsInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
