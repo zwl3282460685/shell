@@ -34,11 +34,11 @@ const routes = [
                name: '项目环境信息管理',
                component: EnvironmentMange,
             },
-            {
-                path: '/JenkinsMange',
-                name: 'Jenkins信息管理',
-                component: JenkinsMange
-            },
+            // {
+            //     path: '/JenkinsMange',
+            //     name: 'Jenkins信息管理',
+            //     component: JenkinsMange
+            // },
             {
                path: '/CreateShell',
                name: 'shell脚本生成',
@@ -64,8 +64,21 @@ const routes = [
                component: CreateBat
             }
         ]
+    },
+    {
+        path: '/jenkins',
+        name: 'Jenkins',
+        component: Home,
+        hidden: false,
+        iconCls: 'el-icon-setting',
+        children: [
+            {
+                path:'/JenkinsMange',
+                name: 'Jenkins信息管理',
+                component: JenkinsMange
+            }
+        ]
     }
-
 ]
 
 const router = new VueRouter({
