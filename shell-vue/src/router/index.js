@@ -6,6 +6,7 @@ import CreateShell from '../views/linux/CreateShell'
 import JenkinsMange from '../views/linux/JenkinsMange'
 import CreateBat from "../views/windows/CreateBat";
 import WindowsEnvMange from "../views/windows/WindowsEnvMange";
+import JenkinsView from "../views/linux/JenkinsView";
 
 Vue.use(VueRouter)
 
@@ -76,7 +77,13 @@ const routes = [
                 path:'/JenkinsMange',
                 name: 'Jenkins信息管理',
                 component: JenkinsMange
-            }
+            },
+            /*{
+                path: "/JenkinsView",
+                name: 'Jenkins管理',
+                hidden: true,
+                component: JenkinsView
+            }*/
         ]
     }
 ]
