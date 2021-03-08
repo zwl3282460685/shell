@@ -43,7 +43,7 @@
         name: "Home",
         data(){
             return {
-                user: 'admin'
+                user: 'admin',
             }
         },
         methods: {

@@ -33,18 +33,18 @@ public class CreateBatlUtil {
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("\\"));
                 transferSb.append("if exist %targetClassPath%").append(classFolderPath).append(" (").append("\r\n");
-                transferSb.append("   copy %transferPath%").append(time).append(path).append(" %targetClassPath%").append(classFolderPath).append("\r\n");
+                transferSb.append("   xcopy -y %transferPath%").append(time).append(path).append(" %targetClassPath%").append(classFolderPath).append("\r\n");
                 transferSb.append(") else (").append("\r\n");
                 transferSb.append("   md %targetClassPath%").append(classFolderPath).append("\r\n");
-                transferSb.append("   copy %transferPath%").append(time).append(path).append(" %targetClassPath%").append(classFolderPath).append("\r\n");
+                transferSb.append("   xcopy -y %transferPath%").append(time).append(path).append(" %targetClassPath%").append(classFolderPath).append("\r\n");
                 transferSb.append(")").append("\r\n\r\n");
             }else{
                 String jsFolderPath = path.substring(0, path.lastIndexOf("\\"));
                 transferSb.append("if exits %targetJsPath%").append(jsFolderPath).append(" (").append("\r\n");
-                transferSb.append("   copy %transferPath%").append(time).append(path).append(" %targetJsPath%").append(jsFolderPath).append("\r\n");
+                transferSb.append("   xcopy /y %transferPath%").append(time).append(path).append(" %targetJsPath%").append(jsFolderPath).append("\r\n");
                 transferSb.append(") else (").append("\r\n");
                 transferSb.append("   md %targetClassPath%").append(jsFolderPath).append("\r\n");
-                transferSb.append("   copy %transferPath%").append(time).append(path).append(" %targetJsPath%").append(jsFolderPath).append("\r\n");
+                transferSb.append("   xcopy /y %transferPath%").append(time).append(path).append(" %targetJsPath%").append(jsFolderPath).append("\r\n");
                 transferSb.append(")").append("\r\n\r\n");
             }
         }
@@ -73,13 +73,13 @@ public class CreateBatlUtil {
                 String classFolderPath = path.substring(0, path.lastIndexOf("\\"));
                 DBsb.append("if exist %classPath%").append(path).append(" (").append("\r\n");
                 DBsb.append("   md %backPath%").append(classFolderPath).append("\r\n"); //创建文件夹
-                DBsb.append("   copy ").append(targetClassPath).append(path).append(" %backPath%").append(classFolderPath).append("\r\n");
+                DBsb.append("   xcopy /y ").append(targetClassPath).append(path).append(" %backPath%").append(classFolderPath).append("\r\n");
                 DBsb.append(")").append("\r\n\r\n");
             }else{
                 String jsFolderPath = path.substring(0, path.lastIndexOf("\\"));
                 DBsb.append("if exist %jsPath%").append(path).append(" (").append("\r\n");
                 DBsb.append("   md %backPath%").append(jsFolderPath).append("\r\n"); //创建文件夹
-                DBsb.append("   copy ").append(targetJSPath).append(path).append(" ").append("%backPath%").append(jsFolderPath).append("\r\n");
+                DBsb.append("   copy /y ").append(targetJSPath).append(path).append(" ").append("%backPath%").append(jsFolderPath).append("\r\n");
                 DBsb.append(")").append("\r\n\r\n");
             }
         }
@@ -95,7 +95,7 @@ public class CreateBatlUtil {
      */
     public static String getFileBat(List<String> paths, String sourceClassPath, String sourceJsPath) {
         StringBuffer getSb = new StringBuffer();
-        String filePath = "D:\\TA\\transfer" + time;
+        String filePath = "D:\\TA\\transfer\\" + time;
         getSb.append("@echo off").append("\r\n");
         getSb.append("set filepath=").append(filePath).append("\r\n");
         getSb.append("set sourcePath=").append(sourceClassPath).append("\r\n");
@@ -105,12 +105,12 @@ public class CreateBatlUtil {
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("\\"));
                 getSb.append("md %filePath%").append(classFolderPath).append("\r\n");
-                getSb.append("copy ").append(sourceClassPath).append(path).append("% filepath%").append(classFolderPath).append("\r\n");
+                getSb.append("xcopy /y ").append(sourceClassPath).append(path).append(" %filepath%").append(classFolderPath).append("\r\n");
 
             }else{
                 String jsFolderPath = path.substring(0, path.lastIndexOf("\\"));
                 getSb.append("md %filePath%").append(jsFolderPath).append("\r\n");
-                getSb.append("copy ").append(sourceJsPath).append(path).append(" %filePath%").append(jsFolderPath).append("\r\n");
+                getSb.append("xcopy /y" ).append(sourceJsPath).append(path).append(" %filePath%").append(jsFolderPath).append("\r\n");
             }
         }
         return getSb.toString();

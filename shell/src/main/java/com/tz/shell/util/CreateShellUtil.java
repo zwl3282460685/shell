@@ -24,22 +24,22 @@ public class CreateShellUtil {
      */
     public static String getFileShell(List<String> paths, String sourceClassPath, String sourceJsPath){
         StringBuffer getSb = new StringBuffer();
-        String filePath = "/root/transfer/" + time;
+        String filePath = "\"/home/transfer/" + time + "\"";
         getSb.append("#!/bin/bash").append("\n");
         getSb.append("filePath=").append(filePath).append("\n");
-        getSb.append("sourcePath=").append(sourceClassPath).append("\n");
-        getSb.append("mkdir -p $filePath").append("\n");
-        getSb.append("cd $filePath").append("\n");
+        getSb.append("sourcePath=\"").append(sourceClassPath).append("\"").append("\n");
+        getSb.append("mkdir -p ${filePath}").append("\n");
+        getSb.append("cd ${filePath}").append("\n");
         for(String path : paths){
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml") || path.startsWith("/com")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("/"));
-                getSb.append("mkdir -p $filePath").append(classFolderPath).append("\n");
-                getSb.append("cp -r ").append(sourceClassPath).append(path).append(" $filePath").append(classFolderPath).append("\n");
+                getSb.append("mkdir -p ${filePath}").append(classFolderPath).append("\n");
+                getSb.append("cp -r ").append(sourceClassPath).append(path).append(" ${filePath}").append(classFolderPath).append("\n");
 
             }else{
                 String jsFolderPath = path.substring(0, path.lastIndexOf("/"));
-                getSb.append("mkdir -p $filePath").append(jsFolderPath).append("\n");
-                getSb.append("cp -r ").append(sourceJsPath).append(path).append(" $filePath").append(jsFolderPath).append("\n");
+                getSb.append("mkdir -p ${filePath}").append(jsFolderPath).append("\n");
+                getSb.append("cp -r ").append(sourceJsPath).append(path).append(" ${filePath}").append(jsFolderPath).append("\n");
             }
         }
         return getSb.toString();
@@ -54,26 +54,26 @@ public class CreateShellUtil {
     public static String createTransFerShell(List<String> paths, String targetClassPath, String targetJsPath) {
         StringBuffer transferSb = new StringBuffer();
         transferSb.append("#!/bin/bash").append("\n");
-        transferSb.append("transferPath=/home/transfer").append("\n");
-        transferSb.append("targetClassPath=").append(targetClassPath).append("\n");
-        transferSb.append("targetJsPath=").append(targetJsPath).append("\n");
-        transferSb.append("cd $transferPath/").append(time).append("\n");
+        transferSb.append("transferPath=\"/home/transfer\"").append("\n");
+        transferSb.append("targetClassPath=\"").append(targetClassPath).append("\"").append("\n");
+        transferSb.append("targetJsPath=\"").append(targetJsPath).append("\"").append("\n");
+        transferSb.append("cd ${transferPath}/").append(time).append("\n");
         for(String path : paths){
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml") || path.startsWith("/com")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("/"));
-                transferSb.append("if [ -d $targetClassPath").append(classFolderPath).append(" ]; then").append("\n");
-                transferSb.append("   cp -r $transferPath/").append(time).append(path).append(" $targetClassPath").append(classFolderPath).append("\n");
+                transferSb.append("if [ -d ${targetClassPath}").append(classFolderPath).append(" ]; then").append("\n");
+                transferSb.append("   cp -r ${transferPath}/").append(time).append(path).append(" ${targetClassPath}").append(classFolderPath).append("\n");
                 transferSb.append("else").append("\n");
-                transferSb.append("   mkdir -p $targetClassPath").append(classFolderPath).append("\n");
-                transferSb.append("   cp -r $transferPath").append(path).append(" $targetClassPath").append(classFolderPath).append("\n");
+                transferSb.append("   mkdir -p ${targetClassPath}").append(classFolderPath).append("\n");
+                transferSb.append("   cp -r ${transferPath}").append(path).append(" ${targetClassPath}").append(classFolderPath).append("\n");
                 transferSb.append("fi").append("\n\n");
             }else{
                 String jsFolderPath = path.substring(0, path.lastIndexOf("/"));
-                transferSb.append("if [ -d $targetJsPath").append(jsFolderPath).append(" ]; then").append("\n");
-                transferSb.append("   cp -r $transferPath").append(path).append(" $targetJsPath").append(jsFolderPath).append("\n");
+                transferSb.append("if [ -d ${targetJsPath}").append(jsFolderPath).append(" ]; then").append("\n");
+                transferSb.append("   cp -r ${transferPath}").append(path).append(" ${targetJsPath}").append(jsFolderPath).append("\n");
                 transferSb.append("else").append("\n");
-                transferSb.append("   mkdir -p $targetClassPath").append(jsFolderPath).append("\n");
-                transferSb.append("   cp -r $transferPath").append(time).append(path).append(" $targetJsPath").append(jsFolderPath).append("\n");
+                transferSb.append("   mkdir -p ${targetClassPath}").append(jsFolderPath).append("\n");
+                transferSb.append("   cp -r ${transferPath}").append(time).append(path).append(" ${targetJsPath}").append(jsFolderPath).append("\n");
                 transferSb.append("fi").append("\n\n");
             }
         }
@@ -89,26 +89,25 @@ public class CreateShellUtil {
     public static String createDBShell(List<String> paths, String targetClassPath, String targetJSPath){
         StringBuffer DBsb = new StringBuffer();
         DBsb.append("#!/bin/bash").append("\n");
-        DBsb.append("backPath=").append(backPath).append(time);
+        DBsb.append("backPath=\"").append(backPath).append(time).append("\"");
         DBsb.append("\n");
-        DBsb.append("mkdir -p $backPath");
-        DBsb.append("\n");
-        DBsb.append("classPath=").append(targetClassPath).append("\n");
-        DBsb.append("jsPath=").append(targetJSPath);
+        DBsb.append("classPath=\"").append(targetClassPath).append("\"").append("\n");
+        DBsb.append("jsPath=\"").append(targetJSPath).append("\"").append("\n");
+        DBsb.append("mkdir -p ${backPath}");
         DBsb.append("\n");
 
         for(String path : paths){
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml") || path.startsWith("/com")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("/"));
-                DBsb.append("if [ -f $classPath").append(path).append(" ];then").append("\n");
-                DBsb.append("   mkdir -p $backPath").append(classFolderPath).append("\n"); //创建文件夹
-                DBsb.append("   cp -r ").append(targetClassPath).append(path).append(" ").append("$backPath").append(classFolderPath).append("\n");
+                DBsb.append("if [ -f ${classPath}").append(path).append(" ];then").append("\n");
+                DBsb.append("   mkdir -p ${backPath}").append(classFolderPath).append("\n"); //创建文件夹
+                DBsb.append("   cp -r ").append(targetClassPath).append(path).append(" ").append("${backPath}").append(classFolderPath).append("\n");
                 DBsb.append("fi").append("\n\n");
             }else{
                 String jsFolderPath = path.substring(0, path.lastIndexOf("/"));
-                DBsb.append("if [ -f $jsPath").append(path).append(" ];then").append("\n");
-                DBsb.append("   mkdir -p $backPath").append(jsFolderPath).append("\n"); //创建文件夹
-                DBsb.append("   cp -r ").append(targetJSPath).append(path).append(" ").append("$backPath").append(jsFolderPath).append("\n");
+                DBsb.append("if [ -f ${jsPath}").append(path).append(" ];then").append("\n");
+                DBsb.append("   mkdir -p ${backPath}").append(jsFolderPath).append("\n"); //创建文件夹
+                DBsb.append("   cp -r ").append(targetJSPath).append(path).append(" ").append("${backPath}").append(jsFolderPath).append("\n");
                 DBsb.append("fi").append("\n\n");
             }
         }

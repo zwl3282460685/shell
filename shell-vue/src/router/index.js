@@ -24,6 +24,26 @@ const routes = [
         hidden: true
     },
     {
+        path: '/jenkins',
+        name: 'Jenkins',
+        component: Home,
+        hidden: false,
+        iconCls: 'el-icon-setting',
+        children: [
+            {
+                path:'/JenkinsMange',
+                name: 'Jenkins信息管理',
+                component: JenkinsMange
+            },
+            {
+                path: "/JenkinsView",
+                name: 'Jenkins管理',
+                hidden: true,
+                component: JenkinsView
+            }
+        ]
+    },
+    {
         path: '/linux',
         name: 'Linux',
         component: Home,
@@ -35,11 +55,6 @@ const routes = [
                name: '项目环境信息管理',
                component: EnvironmentMange,
             },
-            // {
-            //     path: '/JenkinsMange',
-            //     name: 'Jenkins信息管理',
-            //     component: JenkinsMange
-            // },
             {
                path: '/CreateShell',
                name: 'shell脚本生成',
@@ -64,26 +79,6 @@ const routes = [
                name: 'bat脚本生成',
                component: CreateBat
             }
-        ]
-    },
-    {
-        path: '/jenkins',
-        name: 'Jenkins',
-        component: Home,
-        hidden: false,
-        iconCls: 'el-icon-setting',
-        children: [
-            {
-                path:'/JenkinsMange',
-                name: 'Jenkins信息管理',
-                component: JenkinsMange
-            },
-            /*{
-                path: "/JenkinsView",
-                name: 'Jenkins管理',
-                hidden: true,
-                component: JenkinsView
-            }*/
         ]
     }
 ]
