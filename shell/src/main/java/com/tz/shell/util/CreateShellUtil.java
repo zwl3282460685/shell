@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public class CreateShellUtil {
     private static String backPath = "/home/backup/";
-    private static String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
+    //private String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
 
 
     /**
@@ -23,6 +23,8 @@ public class CreateShellUtil {
      * @param sourceJsPath  服务器中statics文件夹所在路径
      */
     public static String getFileShell(List<String> paths, String sourceClassPath, String sourceJsPath){
+
+        String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
         StringBuffer getSb = new StringBuffer();
         String filePath = "\"/home/transfer/" + time + "\"";
         getSb.append("#!/bin/bash").append("\n");
@@ -31,6 +33,9 @@ public class CreateShellUtil {
         getSb.append("mkdir -p ${filePath}").append("\n");
         getSb.append("cd ${filePath}").append("\n");
         for(String path : paths){
+            if("".equals(path)){
+                continue;
+            }
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml") || path.startsWith("/com")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("/"));
                 getSb.append("mkdir -p ${filePath}").append(classFolderPath).append("\n");
@@ -52,6 +57,7 @@ public class CreateShellUtil {
      * @param targetJsPath 目标环境statics 文件夹所在的路径
      */
     public static String createTransFerShell(List<String> paths, String targetClassPath, String targetJsPath) {
+        String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
         StringBuffer transferSb = new StringBuffer();
         transferSb.append("#!/bin/bash").append("\n");
         transferSb.append("transferPath=\"/home/transfer\"").append("\n");
@@ -59,6 +65,9 @@ public class CreateShellUtil {
         transferSb.append("targetJsPath=\"").append(targetJsPath).append("\"").append("\n");
         transferSb.append("cd ${transferPath}/").append(time).append("\n");
         for(String path : paths){
+            if("".equals(path)){
+                continue;
+            }
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml") || path.startsWith("/com")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("/"));
                 transferSb.append("if [ -d ${targetClassPath}").append(classFolderPath).append(" ]; then").append("\n");
@@ -87,6 +96,7 @@ public class CreateShellUtil {
      * @param targetJSPath    //目标环境的js文件的相对路径
      */
     public static String createDBShell(List<String> paths, String targetClassPath, String targetJSPath){
+        String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
         StringBuffer DBsb = new StringBuffer();
         DBsb.append("#!/bin/bash").append("\n");
         DBsb.append("backPath=\"").append(backPath).append(time).append("\"");
@@ -97,6 +107,9 @@ public class CreateShellUtil {
         DBsb.append("\n");
 
         for(String path : paths){
+            if("".equals(path)){
+                continue;
+            }
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml") || path.startsWith("/com")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("/"));
                 DBsb.append("if [ -f ${classPath}").append(path).append(" ];then").append("\n");

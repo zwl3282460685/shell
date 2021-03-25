@@ -37,7 +37,7 @@
                         width="80">
                 </el-table-column>
                 <el-table-column
-                        width="350"
+                        width="370"
                         prop="classesPath"
                         label="classes路径">
                 </el-table-column>

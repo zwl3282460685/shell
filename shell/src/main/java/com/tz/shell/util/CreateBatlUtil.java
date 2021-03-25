@@ -14,7 +14,7 @@ import java.util.List;
 @Component
 public class CreateBatlUtil {
     private static String backPath = "D:\\TA\\backup";
-    private static String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
+    //private static String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
 
     /**
      * 创建迁移的bat脚本
@@ -23,12 +23,16 @@ public class CreateBatlUtil {
      * @param targetJsPath 目标环境statics 文件夹所在的路径
      */
     public static String createTransFerBat(List<String> paths, String targetClassPath, String targetJsPath) {
+        String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
         StringBuffer transferSb = new StringBuffer();
         transferSb.append("@echo off").append("\n");
         transferSb.append("set transferPath=C:\\TA\\").append("\r\n");
         transferSb.append("set targetClassPath=").append(targetClassPath).append("\r\n");
         transferSb.append("set targetJsPath=").append(targetJsPath).append("\r\n");
         for(String path : paths){
+            if("".equals(path)){
+                continue;
+            }
             path = path.replace("/", "\\");
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("\\"));
@@ -59,6 +63,7 @@ public class CreateBatlUtil {
      * @param targetJSPath    //目标环境的js文件的相对路径
      */
     public static String createDBShell(List<String> paths, String targetClassPath, String targetJSPath){
+        String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
         StringBuffer DBsb = new StringBuffer();
         DBsb.append("@echo off").append("\n");
         DBsb.append("set backPath=").append(backPath).append("\\").append(time);
@@ -68,6 +73,9 @@ public class CreateBatlUtil {
         DBsb.append("md %backPath%");
         DBsb.append("\r\n");
         for(String path : paths){
+            if("".equals(path)){
+                continue;
+            }
             path = path.replace("/", "\\");
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("\\"));
@@ -94,6 +102,7 @@ public class CreateBatlUtil {
      * @return
      */
     public static String getFileBat(List<String> paths, String sourceClassPath, String sourceJsPath) {
+        String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
         StringBuffer getSb = new StringBuffer();
         String filePath = "D:\\TA\\transfer\\" + time;
         getSb.append("@echo off").append("\r\n");
@@ -101,6 +110,9 @@ public class CreateBatlUtil {
         getSb.append("set sourcePath=").append(sourceClassPath).append("\r\n");
         getSb.append("md %filepath%").append("\r\n");
         for(String path : paths){
+            if("".equals(path)){
+                continue;
+            }
             path = path.replace("/", "\\");
             if(path.endsWith(".class") || path.endsWith(".html") || path.endsWith(".sql") || path.endsWith(".xml")){
                 String classFolderPath = path.substring(0, path.lastIndexOf("\\"));

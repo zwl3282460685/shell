@@ -18,7 +18,7 @@ import java.util.List;
  * @date : 2021/2/18 10:04
  */
 public class TextUtil {
-    private static String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
+    //private static String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
 
     /**
      * 写入文件
@@ -58,6 +58,7 @@ public class TextUtil {
      * @return
      */
     public static ResponseEntity<byte[]> writeText2(String data){
+        String time = new SimpleDateFormat("yyyyMMdd").format(new Date());
         String fileName = "db" + time + ".sh";
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         HttpHeaders headers = new HttpHeaders();
